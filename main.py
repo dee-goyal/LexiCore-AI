@@ -74,5 +74,7 @@ def legal_query():
         return jsonify({"response": f"Error: {str(e)}"}), 500
 
 
-if __name__ == "__main__":
-    app.run(debug=True, port=os.getenv("HTTP_PORT", 5000))
+
+if __name__ == '__main__':
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port)
