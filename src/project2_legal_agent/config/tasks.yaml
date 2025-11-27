@@ -1,0 +1,74 @@
+# Task Configuration for Legal AI System
+
+research_law_task:
+  description: >
+    Research the following legal query: {query}
+    
+    Focus on:
+    1. Identifying relevant laws, statutes, and constitutional provisions
+    2. Understanding the legal framework and context
+    3. Finding precedents and case law if applicable
+    4. Gathering comprehensive legal information
+    
+    Provide detailed research findings with proper citations.
+  expected_output: >
+    A comprehensive research report containing:
+    - Relevant laws and constitutional provisions
+    - Legal framework and context
+    - Key precedents and case law
+    - Citations and references
+
+analyze_constitution_task:
+  description: >
+    Analyze constitutional aspects of: {query}
+    
+    Focus on:
+    1. Identifying relevant constitutional articles and amendments
+    2. Explaining fundamental rights involved
+    3. Historical context and interpretation
+    4. Current judicial understanding
+    
+    Provide clear constitutional analysis.
+  expected_output: >
+    A detailed constitutional analysis including:
+    - Relevant constitutional provisions
+    - Fundamental rights analysis
+    - Historical and modern interpretation
+    - Judicial precedents
+
+legal_analysis_task:
+  description: >
+    Perform detailed legal analysis of: {query}
+    
+    Focus on:
+    1. Practical implications and applications
+    2. How the law applies in different scenarios
+    3. Strengths and limitations
+    4. Real-world examples
+    
+    Provide thorough legal analysis.
+  expected_output: >
+    A comprehensive legal analysis containing:
+    - Practical implications
+    - Application scenarios
+    - Legal strengths and limitations
+    - Real-world examples and case studies
+
+advisory_task:
+  description: >
+    Provide comprehensive legal advisory on: {query}
+    
+    Synthesize all research and analysis to:
+    1. Explain what the law says in plain language
+    2. Clarify what it means in practical terms
+    3. Discuss implications and consequences
+    4. Provide balanced, well-reasoned insights
+    
+    Make it accessible while maintaining legal accuracy.
+  expected_output: >
+    A complete legal advisory report with:
+    - Clear explanation of applicable laws
+    - Plain language interpretation
+    - Practical implications
+    - Balanced recommendations and insights
+    - Easy-to-understand summary

@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LexiCore AI - Intelligent Legal Assistant</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles/custom.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/biings-ds@1.60.8/build/bds.css"
+    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  </head>
+  <body class="ready sticky" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh;">
+    <!-- Header -->
+    <nav class="navbar is-dark" style="background: rgba(0,0,0,0.3); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.1);">
+      <div class="container is-max-desktop">
+        <div class="navbar-brand" style="padding: 1rem 0;">
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <i class="fas fa-balance-scale" style="font-size: 2rem; color: #ffd700;"></i>
+            <div>
+              <h1 style="color: white; font-size: 1.5rem; font-weight: 700; margin: 0; letter-spacing: 1px;">LexiCore AI</h1>
+              <p style="color: rgba(255,255,255,0.7); font-size: 0.75rem; margin: 0;">Powered by Multi-Agent Intelligence</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <main>
+      <section class="content" style="padding: 3rem 1.5rem;">
+        <div class="container is-max-desktop">
+          <!-- Hero Section -->
+          <div style="text-align: center; margin-bottom: 3rem; color: white;">
+            <h2 style="font-size: 2.5rem; font-weight: 700; margin-bottom: 1rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">
+              Your Intelligent Legal Research Partner
+            </h2>
+            <p style="font-size: 1.1rem; opacity: 0.95; max-width: 700px; margin: 0 auto; line-height: 1.6;">
+              Powered by a team of specialized AI agents working together to provide comprehensive legal analysis, constitutional insights, and expert advisory services.
+            </p>
+          </div>
+
+          <!-- Features Cards -->
+          <div class="columns is-multiline" style="margin-bottom: 2rem;">
+            <div class="column is-3">
+              <div style="background: rgba(255,255,255,0.95); padding: 1.5rem; border-radius: 12px; text-align: center; box-shadow: 0 8px 32px rgba(0,0,0,0.1); height: 100%;">
+                <i class="fas fa-search" style="font-size: 2rem; color: #667eea; margin-bottom: 0.5rem;"></i>
+                <h3 style="font-size: 0.9rem; font-weight: 600; margin-bottom: 0.3rem;">Legal Research</h3>
+                <p style="font-size: 0.75rem; color: #666;">Deep analysis of laws & statutes</p>
+              </div>
+            </div>
+            <div class="column is-3">
+              <div style="background: rgba(255,255,255,0.95); padding: 1.5rem; border-radius: 12px; text-align: center; box-shadow: 0 8px 32px rgba(0,0,0,0.1); height: 100%;">
+                <i class="fas fa-landmark" style="font-size: 2rem; color: #764ba2; margin-bottom: 0.5rem;"></i>
+                <h3 style="font-size: 0.9rem; font-weight: 600; margin-bottom: 0.3rem;">Constitutional Expert</h3>
+                <p style="font-size: 0.75rem; color: #666;">Constitutional provisions analysis</p>
+              </div>
+            </div>
+            <div class="column is-3">
+              <div style="background: rgba(255,255,255,0.95); padding: 1.5rem; border-radius: 12px; text-align: center; box-shadow: 0 8px 32px rgba(0,0,0,0.1); height: 100%;">
+                <i class="fas fa-gavel" style="font-size: 2rem; color: #ffd700; margin-bottom: 0.5rem;"></i>
+                <h3 style="font-size: 0.9rem; font-weight: 600; margin-bottom: 0.3rem;">Case Law Analysis</h3>
+                <p style="font-size: 0.75rem; color: #666;">Precedents & judicial insights</p>
+              </div>
+            </div>
+            <div class="column is-3">
+              <div style="background: rgba(255,255,255,0.95); padding: 1.5rem; border-radius: 12px; text-align: center; box-shadow: 0 8px 32px rgba(0,0,0,0.1); height: 100%;">
+                <i class="fas fa-user-tie" style="font-size: 2rem; color: #e74c3c; margin-bottom: 0.5rem;"></i>
+                <h3 style="font-size: 0.9rem; font-weight: 600; margin-bottom: 0.3rem;">Legal Advisory</h3>
+                <p style="font-size: 0.75rem; color: #666;">Expert recommendations</p>
+              </div>
+            </div>
+          </div>
+
+          <br />
+          
+          <!-- Mode Selection -->
+          <div class="tabs is-boxed is-centered" style="background: rgba(255,255,255,0.95); border-radius: 12px 12px 0 0; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.1);">
+            <ul style="border-bottom: none; margin: 0;">
+              <li class="is-active" id="legal-tab" style="flex: 1;">
+                <a onclick="switchMode('legal')" style="padding: 1.5rem; border: none; font-weight: 600;">
+                  <i class="fas fa-robot" style="margin-right: 8px;"></i>
+                  <span>LexiCore AI Agent</span>
+                </a>
+              </li>
+              <li id="general-tab" style="flex: 1;">
+                <a onclick="switchMode('general')" style="padding: 1.5rem; border: none; font-weight: 600;">
+                  <i class="fas fa-comments" style="margin-right: 8px;"></i>
+                  <span>Quick Chat</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <form
+            style="background: rgba(255,255,255,0.95); padding: 2.5rem; border-radius: 0 0 12px 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.1); backdrop-filter: blur(10px);"
+            id="chat-form"
+          >
+            <div class="columns is-gapless is-multiline">
+              <div class="column is-12">
+                <div class="field">
+                  <div style="position: relative;">
+                    <textarea
+                      id="user-input"
+                      class="textarea"
+                      rows="4"
+                      placeholder="E.g., 'What is Article 21?', 'Explain fundamental rights', 'What are the implications of right to privacy?'"
+                      style="border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1rem; padding: 1rem; transition: all 0.3s; resize: vertical;"
+                    ></textarea>
+                  </div>
+                  <p style="font-size: 0.85rem; color: #666; margin-top: 0.5rem;">
+                    <i class="fas fa-lightbulb" style="color: #ffd700;"></i> Our AI agents will collaborate to provide comprehensive legal analysis
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
+              <button class="button is-large" type="submit" id="submit-btn" style="flex: 1; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; font-weight: 600; border-radius: 8px; padding: 1.5rem; font-size: 1.1rem; box-shadow: 0 4px 16px rgba(102, 126, 234, 0.4); transition: all 0.3s;">
+                <span id="btn-text">Get Legal Analysis</span>
+              </button>
+              <button class="button is-large is-light" type="button" onclick="clearForm()" style="border-radius: 8px; border: 2px solid #e0e0e0;">
+                <i class="fas fa-eraser"></i>
+              </button>
+            </div>
+          </form>
+
+          <div id="response-box" style="margin-top: 2rem; padding: 2.5rem; background: rgba(255,255,255,0.95); border-radius: 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.1); backdrop-filter: blur(10px); display: none;">
+            <div style="border-left: 4px solid #667eea; padding-left: 1.5rem; margin-bottom: 1.5rem;">
+              <h3 style="color: #667eea; font-weight: 700; font-size: 1.3rem; margin-bottom: 0.5rem;">
+                <i class="fas fa-file-alt" style="margin-right: 8px;"></i>
+                Analysis Report
+              </h3>
+            </div>
+            <div id="response-content"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Footer -->
+      <footer style="padding: 2rem 1.5rem; text-align: center;">
+        <div class="container is-max-desktop">
+          <p style="color: rgba(255,255,255,0.8); font-size: 0.9rem;">
+            © 2025 LexiCore AI | Created by Deepika Goyal (MCO22385)
+          </p>
+        </div>
+      </footer>
+    </main>
+    <script>
+      let currentMode = 'legal'; // Default mode
+
+      document.getElementById('chat-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        if (currentMode === 'legal') {
+          getLegalResponse();
+        } else {
+          getBotResponse();
+        }
+      });
+
+      function clearForm() {
+        document.getElementById('user-input').value = '';
+        document.getElementById('response-box').style.display = 'none';
+        document.getElementById('response-content').innerHTML = '';
+      }
+
+      function switchMode(mode) {
+        currentMode = mode;
+        const legalTab = document.getElementById('legal-tab');
+        const generalTab = document.getElementById('general-tab');
+        const inputLabel = document.getElementById('input-label');
+        const btnText = document.getElementById('btn-text');
+        const userInput = document.getElementById('user-input');
+
+        if (mode === 'legal') {
+          legalTab.classList.add('is-active');
+          generalTab.classList.remove('is-active');
+          btnText.textContent = 'Get Legal Analysis';
+          userInput.placeholder = "E.g., 'What is Article 21?', 'Explain fundamental rights', 'What are the implications of right to privacy?'";
+        } else {
+          generalTab.classList.add('is-active');
+          legalTab.classList.remove('is-active');
+          btnText.textContent = 'Send Message';
+          userInput.placeholder = 'Type your message here...';
+        }
+        
+        clearForm();
+      }
+
+      function getLegalResponse() {
+        const userInput = document.getElementById("user-input").value;
+        if (!userInput.trim()) {
+          showNotification("Please enter a legal question", "warning");
+          return;
+        }
+        
+        const responseBox = document.getElementById("response-box");
+        const responseContent = document.getElementById("response-content");
+        
+        responseBox.style.display = 'block';
+        responseContent.innerHTML = `
+          <div style="text-align: center; padding: 3rem;">
+            <div class="loader" style="margin: 0 auto 1.5rem;"></div>
+            <h3 style="color: #667eea; font-weight: 600; margin-bottom: 1rem; font-size: 1.2rem;">
+              <i class="fas fa-cog fa-spin" style="margin-right: 8px;"></i>
+              LexiCore AI Agents Working...
+            </h3>
+            <p style="color: #666; line-height: 1.8;">
+              <i class="fas fa-check-circle" style="color: #48c774; margin-right: 5px;"></i> Legal Research Specialist analyzing...<br>
+              <i class="fas fa-check-circle" style="color: #48c774; margin-right: 5px;"></i> Constitutional Expert reviewing...<br>
+              <i class="fas fa-check-circle" style="color: #48c774; margin-right: 5px;"></i> Legal Analyst processing...<br>
+              <i class="fas fa-check-circle" style="color: #48c774; margin-right: 5px;"></i> Advisory Specialist preparing report...
+            </p>
+            <p style="margin-top: 1rem; font-size: 0.9rem; color: #999;">This may take 1-2 minutes</p>
+          </div>
+        `;
+        
+        document.getElementById('submit-btn').disabled = true;
+        document.getElementById('btn-text').textContent = 'Processing...';
+        
+        fetch("/legal_query", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ user_query: userInput }),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            responseContent.innerHTML = '<div style="white-space: pre-wrap; line-height: 1.8; color: #363636;">' + formatResponse(data.response) + '</div>';
+            document.getElementById('submit-btn').disabled = false;
+            document.getElementById('btn-text').textContent = 'Get Legal Analysis';
+            showNotification("Analysis complete!", "success");
+          })
+          .catch((error) => {
+            responseContent.innerHTML = '<div style="color: #f14668; padding: 2rem; text-align: center;"><i class="fas fa-exclamation-triangle" style="font-size: 2rem; margin-bottom: 1rem;"></i><br><strong>Error:</strong> ' + error.message + '</div>';
+            document.getElementById('submit-btn').disabled = false;
+            document.getElementById('btn-text').textContent = 'Get Legal Analysis';
+            showNotification("An error occurred", "error");
+          });
+      }
+
+      function getBotResponse() {
+        const userInput = document.getElementById("user-input").value;
+        if (!userInput.trim()) {
+          showNotification("Please enter a message", "warning");
+          return;
+        }
+        
+        const responseBox = document.getElementById("response-box");
+        const responseContent = document.getElementById("response-content");
+        
+        responseBox.style.display = 'block';
+        responseContent.innerHTML = '<div style="text-align: center; padding: 2rem;"><div class="loader" style="margin: 0 auto;"></div></div>';
+        
+        fetch("/get_response", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ user_input: userInput }),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            responseContent.innerHTML = '<div style="line-height: 1.8;">' + formatResponse(data.response) + '</div>';
+          })
+          .catch((error) => {
+            responseContent.innerHTML = '<div style="color: #f14668; text-align: center; padding: 2rem;"><i class="fas fa-exclamation-triangle" style="font-size: 2rem; margin-bottom: 1rem;"></i><br><strong>Error:</strong> ' + error.message + '</div>';
+          });
+      }
+
+      function formatResponse(text) {
+        // Basic markdown-like formatting
+        text = text.replace(/\*\*(.*?)\*\*/g, '<strong style="color: #667eea;">$1</strong>');
+        text = text.replace(/\*(.*?)\*/g, '<em>$1</em>');
+        text = text.replace(/###\s+(.*?)(\n|$)/g, '<h3 style="margin-top: 1.5rem; margin-bottom: 0.8rem; color: #363636; font-weight: 700; border-bottom: 2px solid #667eea; padding-bottom: 0.5rem;">$1</h3>');
+        text = text.replace(/##\s+(.*?)(\n|$)/g, '<h2 style="margin-top: 2rem; margin-bottom: 1rem; color: #363636; font-weight: 700; font-size: 1.5rem;">$1</h2>');
+        text = text.replace(/\n\n/g, '<br><br>');
+        return text;
+      }
+
+      function showNotification(message, type) {
+        const notification = document.createElement('div');
+        notification.style.cssText = `
+          position: fixed;
+          top: 20px;
+          right: 20px;
+          padding: 1rem 1.5rem;
+          background: ${type === 'success' ? '#48c774' : type === 'warning' ? '#ffdd57' : '#f14668'};
+          color: ${type === 'warning' ? '#363636' : 'white'};
+          border-radius: 8px;
+          box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+          z-index: 1000;
+          animation: slideIn 0.3s ease-out;
+          font-weight: 600;
+        `;
+        notification.innerHTML = `<i class="fas fa-${type === 'success' ? 'check-circle' : type === 'warning' ? 'exclamation-triangle' : 'times-circle'}" style="margin-right: 8px;"></i>${message}`;
+        document.body.appendChild(notification);
+        setTimeout(() => {
+          notification.style.animation = 'slideOut 0.3s ease-out';
+          setTimeout(() => notification.remove(), 300);
+        }, 3000);
+      }
+    </script>
+    <style>
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+
+      @keyframes slideIn {
+        from { transform: translateX(400px); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+      }
+
+      @keyframes slideOut {
+        from { transform: translateX(0); opacity: 1; }
+        to { transform: translateX(400px); opacity: 0; }
+      }
+
+      .loader {
+        border: 5px solid #f3f3f3;
+        border-top: 5px solid #667eea;
+        border-radius: 50%;
+        width: 60px;
+        height: 60px;
+        animation: spin 1s linear infinite;
+      }
+
+      .tabs {
+        margin-bottom: 0 !important;
+      }
+
+      .tabs ul {
+        border-bottom: none;
+      }
+
+      .tabs li.is-active a {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white !important;
+        border: none !important;
+      }
+
+      .tabs li:not(.is-active) a:hover {
+        background: rgba(102, 126, 234, 0.1);
+        border: none;
+      }
+
+      #user-input:focus {
+        border-color: #667eea !important;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1) !important;
+      }
+
+      #submit-btn:hover:not(:disabled) {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5) !important;
+      }
+
+      #submit-btn:active:not(:disabled) {
+        transform: translateY(0);
+      }
+
+      #submit-btn:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+
+      /* Scrollbar styling */
+      ::-webkit-scrollbar {
+        width: 10px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: rgba(255,255,255,0.1);
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: rgba(102, 126, 234, 0.5);
+        border-radius: 5px;
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: rgba(102, 126, 234, 0.8);
+      }
+    </style>
+  </body>
+</html>
