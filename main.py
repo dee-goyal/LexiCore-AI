@@ -2,6 +2,39 @@ import os
 from dotenv import load_dotenv
 
 from flask import Flask, jsonify, render_template, request
+from concurrent.futures import ThreadPoolExecutor, as_completed
+import time
+
+# Example agent class
+class ExampleAgent:
+    def __init__(self, name):
+        self.name = name
+
+    def do_work(self, data):
+        time.sleep(1)  # Simulate work
+        return f"Agent {self.name} processed {data}"
+
+def run_multiagent_tasks():
+    agents = [ExampleAgent(f"A{i}") for i in range(5)]
+    tasks = [(agent.do_work, (f"task-{i}",), {}) for i, agent in enumerate(agents)]
+    results = []
+    with ThreadPoolExecutor(max_workers=5) as executor:
+        future_to_task = {
+            executor.submit(func, *args, **kwargs): (func, args, kwargs)
+            for func, args, kwargs in tasks
+        }
+        for future in as_completed(future_to_task):
+            func, args, kwargs = future_to_task[future]
+            try:
+                result = future.result()
+                results.append(result)
+            except Exception as exc:
+                results.append(f"Task {func.__name__} generated an exception: {exc}")
+    for res in results:
+        print(res)
+
+if __name__ == "__main__":
+    run_multiagent_tasks()
 import google.generativeai as genai
 from src.project2_legal_agent.crew import LegalAgentCrew
 
