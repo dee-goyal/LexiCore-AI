@@ -65,7 +65,52 @@ def legal_agent_response(query):
         legal_crew.create_tasks(query)
         crew = legal_crew.create_crew()
         result = crew.kickoff()
-        return str(result)
+
+        # Always try to collect both advisory and media source outputs
+        main_answer = None
+        references = ""
+        # If result is a dict, try to extract both
+        if isinstance(result, dict):
+            advisory = None
+            media = None
+            for k, v in result.items():
+                if k.lower().startswith("advisory") or k.lower().startswith("legal_advisor"):
+                    advisory = v
+                if isinstance(v, dict) and ("videos" in v or "articles" in v):
+                    media = v
+            main_answer = advisory if advisory else str(result)
+            if media:
+                references += "\n\nReferences and Further Learning:\n"
+                if media.get("videos"):
+                    references += "\nVideos:\n" + "\n".join(f"- {link}" for link in media["videos"])
+                if media.get("articles"):
+                    references += "\nArticles:\n" + "\n".join(f"- {link}" for link in media["articles"])
+        else:
+            # If result is not a dict, try to get both outputs from the crew's tasks
+            # (CrewAI may store outputs in crew.tasks or similar)
+            try:
+                # Try to access all task results if available
+                all_results = getattr(crew, "results", None) or getattr(crew, "_results", None)
+                if all_results and isinstance(all_results, dict):
+                    advisory = None
+                    media = None
+                    for k, v in all_results.items():
+                        if k.lower().startswith("advisory") or k.lower().startswith("legal_advisor"):
+                            advisory = v
+                        if isinstance(v, dict) and ("videos" in v or "articles" in v):
+                            media = v
+                    main_answer = advisory if advisory else str(result)
+                    if media:
+                        references += "\n\nReferences and Further Learning:\n"
+                        if media.get("videos"):
+                            references += "\nVideos:\n" + "\n".join(f"- {link}" for link in media["videos"])
+                        if media.get("articles"):
+                            references += "\nArticles:\n" + "\n".join(f"- {link}" for link in media["articles"])
+                else:
+                    main_answer = str(result)
+            except Exception:
+                main_answer = str(result)
+        return main_answer + references
     except Exception as e:
         print(f"Error in legal agent: {e}")
         return f"Sorry, the legal AI agent encountered an error: {str(e)}"

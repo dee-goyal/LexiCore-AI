@@ -14,6 +14,7 @@ load_dotenv()
 
 # Import custom tools
 from .tools import LegalSearchTool, ConstitutionTool, CaseLawTool
+from .tools.video_source_tool import LawMediaSourceToolInstance
 
 
 class LegalAgentCrew:
@@ -70,7 +71,17 @@ class LegalAgentCrew:
             llm=self.llm,
             verbose=True
         )
-    
+        
+        # New: Law Media Source Agent
+        self.law_media_source_agent = Agent(
+            role="Law Media Source Extractor",
+            goal="Find relevant YouTube videos and web articles for legal topics.",
+            backstory="An expert at finding multimedia and web resources to help users understand legal concepts.",
+            tools=[LawMediaSourceToolInstance],
+            llm=self.llm,
+            verbose=True
+        )
+
     def create_tasks(self, query: str):
         """Create all tasks with the given query"""
         self.research_task = Task(
@@ -97,7 +108,14 @@ class LegalAgentCrew:
             agent=self.legal_advisor_agent,
             context=[self.research_task, self.constitution_task, self.analysis_task]
         )
-    
+        
+        # New: Law Media Source Task
+        self.media_source_task = Task(
+            description=f"Find relevant YouTube videos and web articles to help understand: {query}",
+            expected_output="A list of video and article links.",
+            agent=self.law_media_source_agent
+        )
+
     def create_crew(self) -> Crew:
         """Create and return the crew"""
         return Crew(
@@ -105,14 +123,16 @@ class LegalAgentCrew:
                 self.legal_researcher_agent,
                 self.constitution_expert_agent,
                 self.legal_analyst_agent,
-                self.legal_advisor_agent
+                self.legal_advisor_agent,
+                self.law_media_source_agent  # Added new agent
             ],
             tasks=[
                 self.research_task,
                 self.constitution_task,
                 self.analysis_task,
-                self.advisory_task
+                self.media_source_task,  # Move media source before advisory
+                self.advisory_task      # Advisory is now last
             ],
-            process=Process.sequential,
+            process=Process.sequential,  # Fallback to sequential for compatibility
             verbose=True
         )
